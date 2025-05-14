@@ -1,0 +1,6 @@
+/harmony-hub/
+├── frontend/       # React web app
+├── backend/        # FastAPI backend
+├── README.md
+├── .gitignore
+└── docker-compose.yml (optional for fullstack)
