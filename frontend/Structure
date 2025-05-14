@@ -1,0 +1,11 @@
+/frontend/src/
+├── pages/
+│   ├── Login.jsx
+│   ├── Signup.jsx
+│   ├── Dashboard.jsx
+│   └── Onboarding.jsx
+├── components/
+│   ├── Sidebar.jsx
+│   └── Header.jsx
+├── App.jsx
+└── main.jsx
