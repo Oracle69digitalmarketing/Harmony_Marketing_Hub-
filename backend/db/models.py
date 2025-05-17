@@ -12,3 +12,9 @@ class BusinessProfile(Base):
     main_services = Column(String)  # comma-separated for simplicity
 
     user = relationship("User", backref="profile")
+
+from .database import Base, engine
+from .models import User, BusinessProfile
+
+print("Creating tables...")
+Base.metadata.create_all(bind=engine)
