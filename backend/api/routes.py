@@ -53,3 +53,11 @@ def update_profile(profile: BusinessProfileIn, user=Depends(get_current_user), d
         db.add(existing)
     db.commit()
     return {"message": "Profile saved"}
+
+@user_router.get("/profile")
+def get_profile(user=Depends(get_current_user)):
+    return {
+        "email": user["sub"],
+        "role": user["role"],
+        "message": "This is a protected profile endpoint."
+    }
