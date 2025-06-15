@@ -72,3 +72,12 @@ export default function App() {
     </Routes>
   );
 }
+
+<Route
+  path="/clients"
+  element={
+    <RequireAuth>
+      <MainLayout><Clients /></MainLayout>
+    </RequireAuth>
+  }
+/>
