@@ -38,3 +38,10 @@ app.include_router(portfolio_router, prefix="/api")
 
 from api.routes import user_router, dashboard_router
 app.include_router(dashboard_router, prefix="/api")
+
+from api.portfolio_routes import router as portfolio_router
+app.include_router(portfolio_router, prefix="/api")
+
+
+from api.copywriter_routes import router as copywriter_router
+app.include_router(copywriter_router, prefix="/api")
