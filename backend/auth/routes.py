@@ -38,3 +38,15 @@ def register_user(user: RegisterUser, db: Session = Depends(get_db)):
     send_verification_email(user.email, token)
 
     return {"message": "Check your email to verify your account"}
+
+@auth_router.get("/verify")
+def verify_email(token: str, db: Session = Depends(get_db)):
+    user = db.query(User).filter(User.verification_token == token).first()
+    if not user:
+        raise HTTPException(status_code=400, detail="Invalid verification link")
+
+    user.verified = True
+    user.verification_token = None
+    db.commit()
+
+    return {"message": "Email successfully verified"}
