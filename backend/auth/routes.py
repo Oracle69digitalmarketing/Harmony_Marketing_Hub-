@@ -50,3 +50,6 @@ def verify_email(token: str, db: Session = Depends(get_db)):
     db.commit()
 
     return {"message": "Email successfully verified"}
+
+if not user.verified:
+    raise HTTPException(status_code=403, detail="Email not verified.")
