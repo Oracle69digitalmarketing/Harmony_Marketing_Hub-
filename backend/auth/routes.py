@@ -1,19 +1,14 @@
 from fastapi import APIRouter, HTTPException, Depends
 from pydantic import BaseModel, EmailStr
 from sqlalchemy.orm import Session
-from db.database import SessionLocal
+import uuid
+
+from db.database import get_db
 from auth.hash import get_password_hash
-from auth.models import User  # or wherever your User model is
+from auth.models import User
+from utils.email import send_verification_email
 
 auth_router = APIRouter()
-
-# Dependency
-def get_db():
-    db = SessionLocal()
-    try:
-        yield db
-    finally:
-        db.close()
 
 class RegisterUser(BaseModel):
     email: EmailStr
@@ -27,14 +22,19 @@ def register_user(user: RegisterUser, db: Session = Depends(get_db)):
         raise HTTPException(status_code=400, detail="Email already registered")
 
     hashed_pw = get_password_hash(user.password)
+    token = str(uuid.uuid4())
 
     new_user = User(
         email=user.email,
         hashed_password=hashed_pw,
-        business_name=user.businessName
+        business_name=user.businessName,
+        verification_token=token,
+        verified=False
     )
     db.add(new_user)
     db.commit()
     db.refresh(new_user)
 
-    return {"message": "User registered successfully"}
+    send_verification_email(user.email, token)
+
+    return {"message": "Check your email to verify your account"}
