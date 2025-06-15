@@ -8,3 +8,8 @@ class UserSignup(BaseModel):
 class UserLogin(BaseModel):
     email: str
     password: str
+
+from sqlalchemy import Boolean, Column, String
+
+verified = Column(Boolean, default=False)
+verification_token = Column(String, nullable=True, unique=True)
