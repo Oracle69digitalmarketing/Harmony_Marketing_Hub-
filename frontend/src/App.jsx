@@ -8,6 +8,7 @@ import Copywriter from './pages/Copywriter';
 import Portfolio from './pages/Portfolio';
 import GrowthPlanner from './pages/GrowthPlanner';
 import Login from './pages/Login';
+import Register from './pages/Register';
 
 import RequireAuth from './utils/RequireAuth';
 import MainLayout from './layouts/MainLayout';
@@ -17,6 +18,7 @@ export default function App() {
     <Routes>
       <Route path="/" element={<HomePage />} />
       <Route path="/login" element={<Login />} />
+      <Route path="/register" element={<Register />} />
 
       <Route
         path="/dashboard"
