@@ -4,8 +4,8 @@ export default function HomePage() {
   return (
     <div style={styles.container}>
       <h1>Harmony Marketing Hub</h1>
-      <p>Welcome to your AI-enhanced business growth platform.</p>
-      <Link to="/dashboard" style={styles.button}>Enter Dashboard</Link>
+      <p>Welcome to your AI-powered business growth assistant.</p>
+      <Link to="/login" style={styles.button}>Login to Dashboard</Link>
     </div>
   );
 }
