@@ -1,40 +1,29 @@
+import { Link } from 'react-router-dom';
+
 export default function HomePage() {
   return (
-    <main style={styles.main}>
-      <h1 style={styles.title}>Harmony Marketing Hub</h1>
-      <p style={styles.subtitle}>
-        Welcome to your AI-powered business growth platform.
-      </p>
-      <div style={styles.section}>
-        <p>🚀 You’re live on Vercel with a clean Vite + React setup.</p>
-        <p>✅ Start building features in <code>src/pages/</code> and <code>src/components/</code>.</p>
-      </div>
-    </main>
+    <div style={styles.container}>
+      <h1>Harmony Marketing Hub</h1>
+      <p>Welcome to your AI-enhanced business growth platform.</p>
+      <Link to="/dashboard" style={styles.button}>Enter Dashboard</Link>
+    </div>
   );
 }
 
 const styles = {
-  main: {
-    fontFamily: 'Segoe UI, Roboto, sans-serif',
-    padding: '4rem 2rem',
-    maxWidth: '720px',
-    margin: '0 auto',
+  container: {
+    padding: '4rem',
     textAlign: 'center',
+    fontFamily: 'Segoe UI, sans-serif',
   },
-  title: {
-    fontSize: '2.5rem',
-    color: '#1d1f2f',
-    marginBottom: '1rem',
-  },
-  subtitle: {
-    fontSize: '1.25rem',
-    color: '#555',
-  },
-  section: {
+  button: {
     marginTop: '2rem',
-    backgroundColor: '#f5f5f5',
-    padding: '1.5rem',
-    borderRadius: '8px',
-    textAlign: 'left',
-  },
+    display: 'inline-block',
+    padding: '0.75rem 1.5rem',
+    backgroundColor: '#0070f3',
+    color: '#fff',
+    borderRadius: '6px',
+    textDecoration: 'none',
+    fontWeight: 'bold',
+  }
 };
