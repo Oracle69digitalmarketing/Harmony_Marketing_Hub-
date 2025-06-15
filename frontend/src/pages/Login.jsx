@@ -86,3 +86,12 @@ const styles = {
     fontSize: '0.9rem',
   }
 };
+
+.catch((err) => {
+  const msg = err.response?.data?.detail;
+  if (msg === "Email not verified.") {
+    setError("Please verify your email. Check your inbox.");
+  } else {
+    setError(msg || "Login failed");
+  }
+});
