@@ -95,3 +95,19 @@ const styles = {
     setError(msg || "Login failed");
   }
 });
+
+@auth_router.post("/resend-verification")
+def resend_verification(email: EmailStr, db: Session = Depends(get_db)):
+    user = db.query(User).filter(User.email == email).first()
+    if not user:
+        raise HTTPException(status_code=404, detail="User not found")
+
+    if user.verified:
+        raise HTTPException(status_code=400, detail="Email already verified")
+
+    token = str(uuid.uuid4())
+    user.verification_token = token
+    db.commit()
+
+    send_verification_email(user.email, token)
+    return {"message": "Verification email resent"}
