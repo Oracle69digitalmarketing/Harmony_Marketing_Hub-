@@ -48,3 +48,6 @@ app.include_router(copywriter_router, prefix="/api")
 
 from api.campaign_routes import router as campaign_router
 app.include_router(campaign_router, prefix="/api")
+
+from api.growth_routes import router as growth_router
+app.include_router(growth_router, prefix="/api")
