@@ -81,3 +81,12 @@ export default function App() {
     </RequireAuth>
   }
 />
+
+<Route
+  path="/growth-planner"
+  element={
+    <RequireAuth>
+      <MainLayout><GrowthPlanner /></MainLayout>
+    </RequireAuth>
+  }
+/>
