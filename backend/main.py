@@ -35,3 +35,6 @@ app.include_router(dashboard_router, prefix="/api")
 app.include_router(client_router, prefix="/api")
 app.include_router(campaign_router, prefix="/api")
 app.include_router(portfolio_router, prefix="/api")
+
+from api.routes import user_router, dashboard_router
+app.include_router(dashboard_router, prefix="/api")
