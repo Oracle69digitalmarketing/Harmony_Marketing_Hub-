@@ -12,18 +12,22 @@ def get_current_user(token: str = Depends(oauth2_scheme)):
         raise HTTPException(status_code=401, detail="Invalid credentials")
     return user
 
-@router.get("/dashboard-summary")
-def dashboard_summary(user=Depends(get_current_user)):
+from fastapi import APIRouter, Depends
+from sqlalchemy.orm import Session
+from auth.dependencies import get_current_user
+from db.database import get_db
+from auth.models import User
+
+router = APIRouter()
+
+@router.get("/dashboard")
+def get_dashboard_data(current_user: User = Depends(get_current_user), db: Session = Depends(get_db)):
+    # You can customize this with real queries
     return {
-        "kpis": {
-            "leads": 10,
-            "orders": 5,
-            "portfolio": 7
-        },
-        "insights": [
-            "Try posting 2 more items this week.",
-            "Run an email campaign – your last one was 14 days ago."
-        ]
+        "clients": 6,
+        "open_jobs": 3,
+        "completed_jobs": 12,
+        "ai_message": f"Great job, {current_user.business_name or current_user.email.split('@')[0]}! You completed 12 orders this week. Time to follow up and upsell."
     }
 
 @router.get("/ai/growth-planner")
