@@ -4,8 +4,11 @@ export default function HomePage() {
   return (
     <div style={styles.container}>
       <h1>Harmony Marketing Hub</h1>
-      <p>Welcome to your AI-powered business growth assistant.</p>
-      <Link to="/login" style={styles.button}>Login to Dashboard</Link>
+      <p>Your AI-powered business growth assistant.</p>
+      <div style={styles.actions}>
+        <Link to="/login" style={styles.login}>Login</Link>
+        <Link to="/register" style={styles.register}>Register</Link>
+      </div>
     </div>
   );
 }
@@ -16,14 +19,26 @@ const styles = {
     textAlign: 'center',
     fontFamily: 'Segoe UI, sans-serif',
   },
-  button: {
+  actions: {
+    display: 'flex',
+    gap: '1rem',
+    justifyContent: 'center',
     marginTop: '2rem',
-    display: 'inline-block',
+  },
+  login: {
     padding: '0.75rem 1.5rem',
     backgroundColor: '#0070f3',
     color: '#fff',
     borderRadius: '6px',
     textDecoration: 'none',
     fontWeight: 'bold',
-  }
+  },
+  register: {
+    padding: '0.75rem 1.5rem',
+    backgroundColor: '#28a745',
+    color: '#fff',
+    borderRadius: '6px',
+    textDecoration: 'none',
+    fontWeight: 'bold',
+  },
 };
