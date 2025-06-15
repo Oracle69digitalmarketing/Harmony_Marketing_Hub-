@@ -61,3 +61,21 @@ def get_profile(user=Depends(get_current_user)):
         "role": user["role"],
         "message": "This is a protected profile endpoint."
     }
+
+from fastapi import APIRouter, Depends
+from sqlalchemy.orm import Session
+from auth.dependencies import get_current_user
+from db.database import get_db
+from auth.models import User
+
+router = APIRouter()
+
+@router.get("/dashboard")
+def get_dashboard_data(current_user: User = Depends(get_current_user), db: Session = Depends(get_db)):
+    # You can customize this with real queries
+    return {
+        "clients": 6,
+        "open_jobs": 3,
+        "completed_jobs": 12,
+        "ai_message": f"Great job, {current_user.business_name or current_user.email.split('@')[0]}! You completed 12 orders this week. Time to follow up and upsell."
+    }
