@@ -20,7 +20,12 @@ export default function Login() {
       localStorage.setItem('token', token);
       navigate('/dashboard');
     } catch (err) {
-      setError(err.response?.data?.detail || 'Login failed');
+      const msg = err.response?.data?.detail;
+      if (msg === "Email not verified.") {
+        setError("Please verify your email. Check your inbox.");
+      } else {
+        setError(msg || "Login failed");
+      }
     }
   };
 
@@ -86,28 +91,3 @@ const styles = {
     fontSize: '0.9rem',
   }
 };
-
-.catch((err) => {
-  const msg = err.response?.data?.detail;
-  if (msg === "Email not verified.") {
-    setError("Please verify your email. Check your inbox.");
-  } else {
-    setError(msg || "Login failed");
-  }
-});
-
-@auth_router.post("/resend-verification")
-def resend_verification(email: EmailStr, db: Session = Depends(get_db)):
-    user = db.query(User).filter(User.email == email).first()
-    if not user:
-        raise HTTPException(status_code=404, detail="User not found")
-
-    if user.verified:
-        raise HTTPException(status_code=400, detail="Email already verified")
-
-    token = str(uuid.uuid4())
-    user.verification_token = token
-    db.commit()
-
-    send_verification_email(user.email, token)
-    return {"message": "Verification email resent"}
