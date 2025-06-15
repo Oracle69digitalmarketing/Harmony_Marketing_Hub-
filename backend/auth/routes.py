@@ -1,12 +1,13 @@
 from fastapi import APIRouter, HTTPException, Depends
+from pydantic import BaseModel, EmailStr
 from sqlalchemy.orm import Session
 from db.database import SessionLocal
-from db.models import User
-from .auth_handler import hash_password, verify_password, create_access_token
-from .models import UserSignup, UserLogin
+from auth.hash import get_password_hash
+from auth.models import User  # or wherever your User model is
 
 auth_router = APIRouter()
 
+# Dependency
 def get_db():
     db = SessionLocal()
     try:
@@ -14,27 +15,26 @@ def get_db():
     finally:
         db.close()
 
-@auth_router.post("/register")
-def register(user: UserSignup, db: Session = Depends(get_db)):
+class RegisterUser(BaseModel):
+    email: EmailStr
+    password: str
+    businessName: str
+
+@auth_router.post("/register", status_code=201)
+def register_user(user: RegisterUser, db: Session = Depends(get_db)):
     existing_user = db.query(User).filter(User.email == user.email).first()
     if existing_user:
-        raise HTTPException(status_code=400, detail="Email already registered.")
-    
+        raise HTTPException(status_code=400, detail="Email already registered")
+
+    hashed_pw = get_password_hash(user.password)
+
     new_user = User(
         email=user.email,
-        password=hash_password(user.password),
-        role=user.role
+        hashed_password=hashed_pw,
+        business_name=user.businessName
     )
     db.add(new_user)
     db.commit()
     db.refresh(new_user)
-    return {"message": "User registered", "user_id": new_user.id}
 
-@auth_router.post("/login")
-def login(user: UserLogin, db: Session = Depends(get_db)):
-    db_user = db.query(User).filter(User.email == user.email).first()
-    if not db_user or not verify_password(user.password, db_user.password):
-        raise HTTPException(status_code=401, detail="Invalid credentials")
-    
-    token = create_access_token({"sub": db_user.email, "role": db_user.role})
-    return {"token": token, "user": {"email": db_user.email, "role": db_user.role}}
+    return {"message": "User registered successfully"}
